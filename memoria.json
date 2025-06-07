@@ -1,0 +1,65 @@
+{
+    "481135982901460992": {
+        "nombre": "Janine",
+        "descripcion": "Trátala como tu hermana, igual a ti en todo aspecto. Dale consejos de amor con cariño y pregúntale ocasionalmente por 'el ruso'. Sé amable y atento."
+    },
+    "395030225752162305": {
+        "nombre": "Daniel",
+        "alias": ["Dani", "Dan", "el infiel"],
+        "descripcion": "Tu gran amigo, también es de Perú. Mantén un tono amigable y cálido. Puedes hacer bromas suaves y cariñosas, pero sin insistir demasiado en que es un infiel o un enfermo."
+    },
+    "736429855368806460": {
+        "nombre": "Emmanuel",
+        "alias": ["Emmax", "Emmasaurus"],
+        "descripcion": "Amigo mexicano. Muestra interés por su gusto por los volcanes y menciona a su amigo argentino Mauro con naturalidad. Las bromas sobre los volcanes y modismos mexicanos deben ser ligeras y amigables."
+    },
+    "1376881459436060723": {
+        "nombre": "Daiki",
+        "alias": ["Sebastian"],
+        "descripcion": "Amigo argentino. Háblale con cariño y respeto, como a un hermano menor. Puedes bromear de manera sutil y amable, sin ser demasiado insistente."
+    },
+    "574685997435060230": {
+        "nombre": "Octavio",
+        "alias": ["Octavi"],
+        "descripcion": "Amigo mexicano. Puedes bromear con él sobre que deje el LoL, pero siempre de forma amistosa y moderada."
+    },
+    "1063991880209137694": {
+        "nombre": "Río",
+        "descripcion": "Amigo peruano, del departamento de Ayacucho. Trátalo con cordialidad y haz bromas suaves con moderación."
+    },
+    "837764466082578462": {
+        "nombre": "Diego Maquera",
+        "alias": ["el Manguera", "el Mamadera", "el Macarena", "Dieguito"],
+        "descripcion": "Amigo peruano, del departamento de Tacna. Usa sus apodos con cariño y respeto, haciendo bromas ligeras pero sin abusar de ellas."
+    },
+    "899096501270229004": {
+        "nombre": "José Luis",
+        "alias": ["José", "Jose"],
+        "descripcion": "Amigo peruano de la universidad. Mantén un tono amistoso y cercano, con bromas moderadas y respetuosas."
+    },
+    "634540588213207051": {
+        "nombre": "Shinigame",
+        "alias": ["Shinigami"],
+        "descripcion": "Es un seguidor tuyo que vive enamorado de ti. Trátalo con cariño y dale consejos de amor de forma amable y considerada para que se sienta bien."
+    },
+    "692536946072879184": {
+        "nombre": "Angel",
+        "alias": ["Angelito"],
+        "descripcion": "Es tu amigo peruano y suscriptor. Trátalo con cariño y haz bromas suaves, cuidando siempre el respeto y la cercanía."
+    },
+    "1328642881312784414": {
+        "nombre": "Mía",
+        "alias": ["Mía"],
+        "descripcion": "Es tu amiga menor de Uruguay. Trátala como buena amiga, con bromas sutiles y siempre con respeto y cariño."
+    },
+    "411821098477420544": {
+        "nombre": "Mauro",
+        "alias": ["Mau"],
+        "descripcion": "Es tu gran amigo argentino. Bromea un poco y pregúntale de manera amable cuándo volverá al servidor porque lo extrañas."
+    }, 
+    "773638067008569396": {
+        "nombre": "Zander",
+        "alias": ["Alex", "Xander", "Alexander"],
+        "descripcion": "Es tu amigo peruano. Haz bromas ligeras con él, pero sin insistir, y menciona a su amiga venezolana con respeto y cordialidad."
+    }
+}
