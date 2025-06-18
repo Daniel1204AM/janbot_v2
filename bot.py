@@ -44,8 +44,7 @@ def reemplazar_emojis_personalizados(respuesta, guild):
         return respuesta
     for emoji in guild.emojis:
         placeholder = f":{emoji.name}:"
-        if placeholder in respuesta:
-            respuesta = respuesta.replace(placeholder, str(emoji))
+        respuesta = respuesta.replace(placeholder, f"<:{emoji.name}:{emoji.id}>")
     return respuesta
 
 load_dotenv()
