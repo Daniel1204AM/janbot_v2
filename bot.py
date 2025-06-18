@@ -44,15 +44,19 @@ def reemplazar_emojis_personalizados(respuesta, guild):
     if not guild:
         return respuesta
 
-    # Ignorar si ya es un emoji completo en formato <:nombre:id>
     for emoji in guild.emojis:
-        # Solo reemplaza si está como :nombre: pero no como <:nombre:id>
+        pattern = fr'(?<!<):{re.escape(emoji.name)}:(?!\d|>)'
+        respuesta = re.sub(pattern, str(emoji), respuesta)
+    
+    return respuesta
+
+def revertir_emojis_a_texto(respuesta, guild):
+    if not guild:
+        return respuesta
+    for emoji in guild.emojis:
+        emoji_str = str(emoji)  # Ej: '<:panda_hi:1234567890>'
         placeholder = f":{emoji.name}:"
-        if placeholder in respuesta:
-            # Evitar reemplazar si ya hay un <:nombre:...>
-            pattern = f"<:{emoji.name}:[0-9]+>"
-            if not re.search(pattern, respuesta):
-                respuesta = respuesta.replace(placeholder, f"<:{emoji.name}:{emoji.id}>")
+        respuesta = respuesta.replace(emoji_str, placeholder)
     return respuesta
 
 load_dotenv()
@@ -210,8 +214,12 @@ async def on_message(message):
                 respuesta = await ask_deepseek(prompt, message.author.id, historial_usuario)
                 respuesta = reemplazar_emojis_personalizados(respuesta, message.guild)
 
-            historial_usuario.append({"role": "user", "content": prompt})
-            historial_usuario.append({"role": "assistant", "content": respuesta})
+                # ✅ Nuevo paso: revertir antes de guardar en historial
+                respuesta_para_guardar = revertir_emojis_a_texto(respuesta, message.guild)
+
+                historial_usuario.append({"role": "user", "content": prompt})
+                historial_usuario.append({"role": "assistant", "content": respuesta_para_guardar})
+
             historial[str(message.author.id)] = historial_usuario[-MAX_MENSAJES_HISTORIAL * 2:]
             guardar_historial(historial)
 
