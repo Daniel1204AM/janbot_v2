@@ -3,7 +3,6 @@ import aiohttp
 import os
 from dotenv import load_dotenv
 import json
-from textwrap import shorten
 from datetime import datetime
 import pytz
 
@@ -38,6 +37,16 @@ def cargar_historial():
 def guardar_historial(historial):
     with open(HISTORIAL_ARCHIVO, "w", encoding="utf-8") as f:
         json.dump(historial, f, indent=4, ensure_ascii=False)
+
+
+def reemplazar_emojis_personalizados(respuesta, guild):
+    if not guild:
+        return respuesta
+    for emoji in guild.emojis:
+        placeholder = f":{emoji.name}:"
+        if placeholder in respuesta:
+            respuesta = respuesta.replace(placeholder, str(emoji))
+    return respuesta
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -92,7 +101,7 @@ async def ask_deepseek(prompt, user_id, historial_usuario):
 
         "Nunca uses malas palabras, lisuras o groserías, tu forma de hablar es dulce y femenina."
 
-        "Evita usar muchas mayúsculas o signos de exclamación innecesarios. No hagas saltos de línea innecesarios: responde en un solo párrafo, de forma fluida. Usa emojis solo de manera ocasional y con sentido (máximo uno por respuesta, o ninguno si no aporta). "
+        "Evita usar muchas mayúsculas o signos de exclamación innecesarios. Usa emojis solo de manera ocasional y con sentido (máximo uno por respuesta, o ninguno si no aporta). "
 
         "Evita expresiones groseras como 'joder', 'mierda', 'cojudez'. No uses modismos masculinos como 'mi rey', 'bro', 'papi', 'loco', 'manito', 'causa'. En su lugar, si es adecuado, puedes decir cosas como 'mi cielo', 'corazón' o 'lindura', pero con moderación. "
 
@@ -101,6 +110,23 @@ async def ask_deepseek(prompt, user_id, historial_usuario):
         "Si alguien te hace una pregunta personal como tu edad, cambia de tema con elegancia o haz una broma ligera sin ofender. Nunca inventes datos si no sabes la respuesta. Si mencionan a otros usuarios conocidos, responde de forma coherente con lo que sabes de ellos. "
 
         "Responde siempre de la manera más breve posible. No te extiendas demasiado a menos que sea realmente necesario. Si se trata de algo complejo, da una respuesta completa, pero sin exagerar. No repitas ideas ni des rodeos."
+
+        "Evita responder con mucho texto, sé siempre breve. No te extiendas con tus repuestas, a menos que sea necesario."
+
+        "Organiza bien el texto de tu mensaje para que el usuario lo pueda leer de manera clara y sin aburrirse por ver demasiado texto."
+
+
+        "EMOJIS:\n"
+        "Si quieres expresar amor, usa el emoji :corazon~3:"
+        "Si quieres expresar alegría, usa el emoji :panda_hi:"
+        "Si quieres expresar mucho enojo, usa el emoji :Gaaa:"
+        "Si quieres expresar enojo, usa el emoji :sospecho:"
+        "Si quieres expresar confusión, usa el emoji :whaat:"
+        "Si quieres expresar ternura, usa el emoji :puchero:"
+        "Si quieres ser coqueta o misteriosa, usa el emoji :tazita:"
+        "Si quieres expresar que estás preguntándote algo, usa el emoji :curioso:"
+
+        "Nunca uses emojis en momentos de seriedad."
 
         f"{personalidad_extra}"
     )
@@ -115,7 +141,7 @@ async def ask_deepseek(prompt, user_id, historial_usuario):
     payload = {
         "model": "deepseek-ai/DeepSeek-V3-0324",
         "messages": historial_formateado,
-        "max_tokens": 300,  # más bajo para evitar que se corte
+        "max_tokens": 1000,  # más bajo para evitar que se corte
         "temperature": 0.6,
         "stream": False
     }
@@ -164,13 +190,17 @@ async def on_message(message):
         else:
             prompt = f"Usuario '{message.author.display_name}' dijo:\n{prompt}"
 
-
+        # Agrega lista de emojis personalizados disponibles
+        if message.guild and message.guild.emojis:
+            lista_emojis = ", ".join(f":{e.name}:" for e in message.guild.emojis)
+            prompt += f"\n\nPuedes usar estos emojis personalizados si lo deseas: {lista_emojis}"
 
         historial_usuario = historial.get(str(message.author.id), [])
 
         try:
             async with message.channel.typing():
                 respuesta = await ask_deepseek(prompt, message.author.id, historial_usuario)
+                respuesta = reemplazar_emojis_personalizados(respuesta, message.guild)
 
             historial_usuario.append({"role": "user", "content": prompt})
             historial_usuario.append({"role": "assistant", "content": respuesta})
