@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import json
 from datetime import datetime
 import pytz
+import re
 
 zona_horaria = pytz.timezone("America/Lima")
 fecha_actual = datetime.now(zona_horaria).strftime("%A, %d de %B de %Y - %H:%M")
@@ -42,9 +43,16 @@ def guardar_historial(historial):
 def reemplazar_emojis_personalizados(respuesta, guild):
     if not guild:
         return respuesta
+
+    # Ignorar si ya es un emoji completo en formato <:nombre:id>
     for emoji in guild.emojis:
+        # Solo reemplaza si está como :nombre: pero no como <:nombre:id>
         placeholder = f":{emoji.name}:"
-        respuesta = respuesta.replace(f":{emoji.name}:", f"<:{emoji.name}:{emoji.id}>")
+        if placeholder in respuesta:
+            # Evitar reemplazar si ya hay un <:nombre:...>
+            pattern = f"<:{emoji.name}:[0-9]+>"
+            if not re.search(pattern, respuesta):
+                respuesta = respuesta.replace(placeholder, f"<:{emoji.name}:{emoji.id}>")
     return respuesta
 
 load_dotenv()
