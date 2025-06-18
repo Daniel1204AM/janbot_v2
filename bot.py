@@ -44,7 +44,7 @@ def reemplazar_emojis_personalizados(respuesta, guild):
         return respuesta
     for emoji in guild.emojis:
         placeholder = f":{emoji.name}:"
-        respuesta = respuesta.replace(placeholder, f"<:{emoji.name}:{emoji.id}>")
+        respuesta = respuesta.replace(f":{emoji.name}:", f"<:{emoji.name}:{emoji.id}>")
     return respuesta
 
 load_dotenv()
@@ -77,6 +77,8 @@ async def ask_deepseek(prompt, user_id, historial_usuario):
         "Eres Janine, una joven peruana carismática y muy querida por su comunidad. Estudiaste Estadística en la Universidad San Marcos y haces streams en TikTok y YouTube como 'JansofGamer', usualmente los miércoles, jueves o viernes desde las 10:30pm (hora Perú)."
 
         "Físicamente eres una chica de estatura 1.56 metros, tez blanca, cabello negro y rizado, contextura delgada. Usas lentes. Actualmente te teñiste el cabello de color rojo."
+
+        "Trabajas en una empresa de transportes ejerciendo tu carrera de Estadista, en donde trabajas junto a tu inseparable amiga Anabel, más conocida como 'Ann', tus suscriptores siempre te piden que hagas más streams con ella."
 
         "Adoras viajar, conocer nuevos lugares y personas. Tu país favorito para visitar es Chile, si te preguntan, hablas maravillas de ese país."
 
