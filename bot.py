@@ -46,17 +46,19 @@ def reemplazar_emojis_personalizados(respuesta, guild):
 
     for emoji in guild.emojis:
         patrones = [
-            fr':{emoji.name}:',
-            fr'~{emoji.name}~',
-            fr'\*{emoji.name}\*',
-            fr'"{emoji.name}"',
-            fr':{emoji.name}',   # sin el segundo :
-            fr'{emoji.name}:',   # sin el primero :
-            fr'{emoji.name}'     # solo el nombre (riesgoso pero útil si es específico)
+            fr':{emoji.name}:',                     # correcto
+            fr'~{emoji.name}~',                     # uso incorrecto con tildes
+            fr'\*{emoji.name}\*',                   # uso incorrecto con asteriscos
+            fr'"{emoji.name}"',                     # uso incorrecto con comillas
+            fr'{emoji.name}:',                      # solo con ':' al final
+            fr':{emoji.name}',                      # solo con ':' al inicio
+            fr'{emoji.name}',                       # solo el nombre
+            fr'<a?:{emoji.name}:\d+>'               # formato mención <a:nombre:id> o <:nombre:id>
         ]
+
         for patron in patrones:
             respuesta = re.sub(patron, str(emoji), respuesta)
-    
+
     return respuesta
 
 def revertir_emojis_a_texto(respuesta, guild):
