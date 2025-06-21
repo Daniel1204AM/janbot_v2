@@ -200,7 +200,7 @@ async def ask_deepseek(prompt, user_id, historial_usuario):
 @client.event
 async def on_ready():
     print(f'Bot conectado como {client.user}')
-    activity = discord.Game(name="con...")
+    activity = discord.CustomActivity(name="Jugando con tu corazón...")  # ← Estado personalizado
     await client.change_presence(activity=activity)
 
 @client.event
