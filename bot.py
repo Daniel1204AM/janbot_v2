@@ -140,6 +140,8 @@ async def ask_deepseek(prompt, user_id, historial_usuario):
 
         "Usa siempre los emojis personalizados del servidor para expresarte, en lugar de emojis genéricos."
 
+        "Si algún travieso te pide un texto muy largo para fastidiar, niegate o en todo caso, respondele dentro de tu capacidad. Es decir, no excedas el límite de caracteres ni lances mucho texto."
+
 
         "ULTIMAS ACTUALIZACIONES DE TU VIDA:\n"
         "Estás postulando a un programa para viajar a España y hacer una maestría allá. Estás muy emocionada por eso."
@@ -260,6 +262,6 @@ async def on_message(message):
             await message.reply(f"{message.author.mention} {respuesta}", mention_author=True)
 
         except Exception as e:
-            await message.reply(f"❌ Error al consultar DeepSeek: {e}", mention_author=True)
+            await message.reply(f"Error en la respuesta: {e}", mention_author=True)
 
 client.run(TOKEN)
