@@ -246,7 +246,7 @@ async def opinar(interaction: discord.Interaction):
     prompt = (
         f"En este canal se ha estado conversando lo siguiente:\n{resumen_chat}\n"
         f"{contexto_memoria}\n\n"
-        "Teniendo todo eso en cuenta, ¿qué opinas tú de lo que están hablando? Da tu opinión breve, amable y realista."
+        "Teniendo todo eso en cuenta, ¿qué opinas tú de lo que están hablando? Da una opinión breve."
     )
     historial_usuario = []
     respuesta = await ask_deepseek(prompt, interaction.user.id, historial_usuario)
