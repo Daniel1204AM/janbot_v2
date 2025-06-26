@@ -251,7 +251,7 @@ async def opinar(interaction: discord.Interaction):
     historial_usuario = []
     respuesta = await ask_deepseek(prompt, interaction.user.id, historial_usuario)
     respuesta = reemplazar_emojis_personalizados(respuesta, interaction.guild)
-    await interaction.followup.send(f"{interaction.user.mention} {respuesta}")
+    await interaction.followup.send(respuesta)
 
 @client.event
 async def on_message(message):
