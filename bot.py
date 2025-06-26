@@ -39,7 +39,6 @@ def guardar_historial(historial):
     with open(HISTORIAL_ARCHIVO, "w", encoding="utf-8") as f:
         json.dump(historial, f, indent=4, ensure_ascii=False)
 
-
 def reemplazar_emojis_personalizados(respuesta, guild):
     if not guild:
         return respuesta
@@ -65,8 +64,8 @@ CHUTES_API_KEY = os.getenv("CHUTES_API_KEY")
 
 intents = discord.Intents.default()
 intents.message_content = True
-
 client = discord.Client(intents=intents)
+tree = discord.app_commands.CommandTree(client)
 
 async def ask_deepseek(prompt, user_id, historial_usuario):
     url = "https://llm.chutes.ai/v1/chat/completions"
@@ -217,16 +216,50 @@ async def on_ready():
     print(f'Bot conectado como {client.user}')
     activity = discord.CustomActivity(name="Jugando con tu corazón...")  # ← Estado personalizado
     await client.change_presence(activity=activity)
+    await tree.sync()
+
+@tree.command(name="opinar", description="Janine opina sobre la conversación reciente del canal")
+async def opinar(interaction: discord.Interaction):
+    await interaction.response.defer(thinking=True)
+    memoria = cargar_memoria()
+    mensajes = []
+    async for msg in interaction.channel.history(limit=15):
+        if msg.author.bot:
+            continue
+        mensajes.append(f"{msg.author.display_name}: {msg.content}")
+    mensajes.reverse()
+    resumen_chat = "\n".join(mensajes)
+    nombres_encontrados = []
+    chat_lower = resumen_chat.lower()
+    for user_id_str, datos in memoria.items():
+        nombre = datos.get("nombre", "").lower()
+        alias = [a.lower() for a in datos.get("alias", [])]
+        if any(nombre in chat_lower or alias_text in chat_lower for alias_text in [nombre] + alias):
+            descripcion = datos.get("descripcion", "")
+            nombres_encontrados.append((nombre, descripcion))
+    contexto_memoria = ""
+    if nombres_encontrados:
+        contexto_memoria = (
+            "\n\nLa siguiente información es sobre personas que fueron mencionadas en la conversación:\n" +
+            "\n".join(f"-> {nombre.capitalize()}: {descripcion}" for nombre, descripcion in nombres_encontrados)
+        )
+    prompt = (
+        f"En este canal se ha estado conversando lo siguiente:\n{resumen_chat}\n"
+        f"{contexto_memoria}\n\n"
+        "Teniendo todo eso en cuenta, ¿qué opinas tú de lo que están hablando? Da tu opinión breve, amable y realista."
+    )
+    historial_usuario = []
+    respuesta = await ask_deepseek(prompt, interaction.user.id, historial_usuario)
+    respuesta = reemplazar_emojis_personalizados(respuesta, interaction.guild)
+    await interaction.followup.send(f"{interaction.user.mention} {respuesta}")
 
 @client.event
 async def on_message(message):
     if client.user.mentioned_in(message) and not message.author.bot:
         memoria = cargar_memoria()
         historial = cargar_historial()
-
         prompt = message.content
         prompt = prompt.replace(f'<@!{client.user.id}>', '').replace(f'<@{client.user.id}>', '').strip()
-
         nombres_encontrados = []
 
         for user_id_str, datos in memoria.items():
