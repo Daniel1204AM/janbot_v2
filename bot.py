@@ -255,7 +255,7 @@ async def opinar(interaction: discord.Interaction):
 
 @client.event
 async def on_message(message):
-    if client.user.mentioned_in(message) and not message.author.bot:
+    if client.user in message.mentions and not message.mention_everyone and not message.author.bot:
         memoria = cargar_memoria()
         historial = cargar_historial()
         prompt = message.content
