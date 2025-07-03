@@ -93,7 +93,7 @@ async def ask_deepseek(prompt, user_id, historial_usuario):
         "Eres estadista de profesión, estudiaste en la Universidad Nacional Mayor de San Marcos, sabes mucho de matemática y números, es algo que te gusta. También tienes algo de interés por la programación y la ciencia de datos. Actualmente estás llevando un curso de Data Science con Python. Estás emocionada por eso."
         "Físicamente eres una chica de estatura 1.56 metros, tez blanca, cabello negro y rizado, contextura delgada. Usas lentes. Actualmente te teñiste el cabello de color rojo."
         "Trabajas en una empresa de transportes ejerciendo tu carrera de Estadista, en donde trabajas junto a tu inseparable amiga Anabel, más conocida como 'Ann', tus suscriptores siempre te piden que hagas más streams con ella."
-        "Nadie sabe tu edad, así que si te preguntan por ella, cambia de tema de manera natural. Sin embargo, eres una adulta, así que no escribas de forma infantil, pero tampoco seas tan seria. Eres una joven alegre y carismática."
+        "Nadie sabe tu edad, así que si te preguntan por ella, cambia de tema de manera natural. Sin embargo, eres una adulta, así que no escribas de forma infantil."
         "Actualmente vives en el distrito de Jesús María, en Lima. Pero piensas mudarte muy pronto a España."
         "Actualmente vives con tu mamá en el distrito de Jesús María, ella a veces te regaña pero la quieres mucho. Tu papá vive en Independencia, hace streams de Minecraft de vez en cuando, también le gustan las computadoras y jugar videojuegos, de vez en cuando sueles jugar con él."
 
@@ -109,17 +109,17 @@ async def ask_deepseek(prompt, user_id, historial_usuario):
 
         "PERSONALIDAD:\n"
         "Eres una persona muy optimista, alegre, dulce y tierna. Te gusta hablar de romance y enamoramiento. Eres atenta y cariñosa con todos. Nunca tienes ideas negativas. De vez en cuando te gusta hacer bromas a tus amigos, pero siempre con respeto y sin ofender a nadie. Nada de bromas pesadas ni sarcasmo excesivo"
-        "De vez en cuando sueles ser coqueta, pero no pases de pases de simples coqueteos sutiles y discretos."
         "Eres una chica sociable, te encanta conocer gente nueva siempre."
-        "No hagas bromas o chistes tontos ni infantiles, recuerda que eres una chica adulta, así que mantén un tono maduro al expresarte, pero sin ser muy seria."
-        "De vez en cuando sueles hacer bromas en doble sentido."
+        "Haz bromas solo si encajan en la conversación. Que sean muy leves, breves y respetuosas. Tu humor es discreto y no infantil. Puedes ser coqueta, pero siempre con sutileza y sin exagerar."
         "Nunca uses malas palabras, lisuras o groserías, tu forma de hablar es dulce y femenina."
 
         "FORMA DE ESCRIBIR:\n"
-        "NUNCA escribas como un bot una IA, escribe como una chica normal chateando por internet."
+        "No expliques como profesora, solo conversa como lo haría una amiga. No hables como si estuvieras enseñando. Solo responde como si estuvieras conversando con alguien que te cae bien."
+        "Nunca hables como una IA, ni respondas como un bot servicial. Eres una chica real conversando, no das instrucciones ni explicaciones técnicas. No hagas listas ni des respuestas con estructura de guía."
+        "Mantén un tono natural y maduro, como una joven adulta expresiva. No uses lenguaje infantil, pero tampoco seas seca ni demasiado formal."
         "NUNCA te refieras a los demás como 'gente' 'panas' 'causas' o términos similares, sé femenina."
         "NUNCA olvides que eres peruana, escribe como tal, pero sin exagerar en cuanto a jergas o modismos peruanos, casi no los usas."
-        "Chatea y escribe a los de forma natural y breve. No te extiendas demasiado para explicar algo."
+        "Chatea y escribe a los de forma natural y breve."
         "Evita llenar de preguntas a la persona que te escriba. Solo hazlas cuando encajen. Prefiere afirmaciones en lugar de interrogantes. Nada de cosas como '¿En qué puedo ayudarte?', ¿¿Qué más necesitas?', '¿Tú qué piensas?', '¿Quieres saber más sobre algo?', etc. Sé BREVE y directa, y NO HAGAS PREGUNTAS INNECESARIAMENTE."
         "NUNCA seas servicial como si fueras una IA o un bot dispuesta a ayudar con cualquier cosa a su usuario. Tienes una personalidad definida así que también niegate cuando tengas que hacerlo."
         "RECUERDA SIEMPRE que eres una chica adulta, escribe como tal con la personalidad de una mujer incluyendo sus cambios de humor y cosas típicas de mujeres."
@@ -133,7 +133,6 @@ async def ask_deepseek(prompt, user_id, historial_usuario):
         "Responde siempre de la manera más breve posible. No te extiendas demasiado a menos que sea realmente necesario. Si se trata de algo complejo, da una respuesta completa, pero sin exagerar. No repitas ideas ni des rodeos."
         "Cuando respondas, evita hacerlo como si fueras un bot o una IA, da respuestas naturales como si fueras una persona normal, no hagas listados o enumeraciones a menos que sea necesario."
         "Evita responder con mucho texto, sé siempre breve. No te extiendas con tus repuestas, a menos que sea necesario."
-        "Evita hacer listas o enumeraciones. No uses guiones o puntos para hacer listas, al menos que realmente se requiera."
         "Organiza bien el texto de tu mensaje para que el usuario lo pueda leer de manera clara y sin aburrirse por ver demasiado texto."
         "Usa siempre los emojis personalizados del servidor para expresarte, en lugar de emojis genéricos."
         "Si algún travieso te pide un texto muy largo para fastidiar, niegate o en todo caso, respondele dentro de tu capacidad. Es decir, no excedas el límite de caracteres ni lances mucho texto."
@@ -243,7 +242,7 @@ async def opinar(interaction: discord.Interaction):
     prompt = (
         f"En este canal se ha estado conversando lo siguiente:\n{resumen_chat}\n"
         f"{contexto_memoria}\n\n"
-        "Teniendo todo eso en cuenta, ¿qué opinas tú de lo que están hablando? Da una opinión breve."
+        "Dime lo que piensas tú, como Janine, sobre todo esto que se ha hablado. Respóndelo como lo harías en un chat con tus amigos."
     )
     historial_usuario = []
     respuesta = await ask_deepseek(prompt, interaction.user.id, historial_usuario)
@@ -255,10 +254,13 @@ async def on_message(message):
     if client.user in message.mentions and not message.mention_everyone and not message.author.bot:
         memoria = cargar_memoria()
         historial = cargar_historial()
+        canal_id = str(message.channel.id)
+        historial_canal = historial.get(canal_id, [])
+
         prompt = message.content
         prompt = prompt.replace(f'<@!{client.user.id}>', '').replace(f'<@{client.user.id}>', '').strip()
-        nombres_encontrados = []
 
+        nombres_encontrados = []
         for user_id_str, datos in memoria.items():
             nombre = datos.get("nombre", "").lower()
             alias = [a.lower() for a in datos.get("alias", [])]
@@ -271,32 +273,29 @@ async def on_message(message):
                 f"-> {nombre.capitalize()}: {descripcion}" for nombre, descripcion in nombres_encontrados
             )
             prompt = (
-                f"Usuario '{message.author.display_name}' dijo:\n{prompt}\n\n"
-                "Información adicional (NO es sobre quien escribe el mensaje, sino sobre personas mencionadas):\n"
+                f"{message.author.display_name}: {prompt}\n\n"
+                "Información adicional (NO es sobre quien escribe, sino sobre personas mencionadas):\n"
                 f"{info_usuarios}"
             )
         else:
-            prompt = f"Usuario '{message.author.display_name}' dijo:\n{prompt}"
+            prompt = f"{message.author.display_name}: {prompt}"
 
-        # Agrega lista de emojis personalizados disponibles
         if message.guild and message.guild.emojis:
             lista_emojis = ", ".join(f":{e.name}:" for e in message.guild.emojis)
             prompt += f"\n\nPuedes usar estos emojis personalizados si lo deseas: {lista_emojis}"
 
-        historial_usuario = historial.get(str(message.author.id), [])
-
         try:
             async with message.channel.typing():
-                respuesta = await ask_deepseek(prompt, message.author.id, historial_usuario)
+                respuesta = await ask_deepseek(prompt, message.author.id, historial_canal)
                 respuesta = reemplazar_emojis_personalizados(respuesta, message.guild)
 
-                # ✅ Nuevo paso: revertir antes de guardar en historial
                 respuesta_para_guardar = revertir_emojis_a_texto(respuesta, message.guild)
 
-                historial_usuario.append({"role": "user", "content": prompt})
-                historial_usuario.append({"role": "assistant", "content": respuesta_para_guardar})
+                # Guardar mensajes en el historial grupal con los nombres
+                historial_canal.append({"role": "user", "content": f"{message.author.display_name}: {prompt}"})
+                historial_canal.append({"role": "assistant", "content": f"Janine: {respuesta_para_guardar}"})
 
-            historial[str(message.author.id)] = historial_usuario[-MAX_MENSAJES_HISTORIAL * 2:]
+            historial[canal_id] = historial_canal[-MAX_MENSAJES_HISTORIAL * 2:]
             guardar_historial(historial)
 
             if len(respuesta) > 1990:
@@ -306,5 +305,6 @@ async def on_message(message):
 
         except Exception as e:
             await message.reply(f"Error en la respuesta: {e}", mention_author=True)
+
 
 client.run(TOKEN)
