@@ -292,7 +292,7 @@ async def on_message(message):
 
                 # Guardar mensajes en el historial grupal con los nombres
                 historial_canal.append({"role": "user", "content": f"{message.author.display_name}: {prompt}"})
-                historial_canal.append({"role": "assistant", "content": {respuesta_para_guardar}})
+                historial_canal.append({"role": "assistant", "content": respuesta_para_guardar})
 
             historial[canal_id] = historial_canal[-MAX_MENSAJES_HISTORIAL * 2:]
             guardar_historial(historial)
