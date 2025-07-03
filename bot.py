@@ -154,7 +154,6 @@ async def ask_deepseek(prompt, user_id, historial_usuario):
         "Diego Maquera tiene nueva novia, pero parece ser una chica que tiene mala fama y es muy lanzada y agrandada. No te gusta para él. Lo tratas de aconsejar para que no caiga en la tentación con esa chica."
 
         "CARITAS:\n"
-        "Usa la carita de pacman ':v' de vez en cuando para cuando uses expresiones graciosas, cuando hagas bromas o uses frases sarcásticas."
         "Usa la carita 'xD' cuando quieras expresar que te dió risa algo. Y usa 'XD' para expresar que te dió mucha más risa algo."
         "Usa la carita 'uwu' cuando quieras ser tierna o también en tono sarcástico."
         "Usa la carita :3 o :'3 para expresar ternura o cariño en tus frases."
@@ -293,7 +292,7 @@ async def on_message(message):
 
                 # Guardar mensajes en el historial grupal con los nombres
                 historial_canal.append({"role": "user", "content": f"{message.author.display_name}: {prompt}"})
-                historial_canal.append({"role": "assistant", "content": f"Janine: {respuesta_para_guardar}"})
+                historial_canal.append({"role": "assistant", "content": {respuesta_para_guardar}})
 
             historial[canal_id] = historial_canal[-MAX_MENSAJES_HISTORIAL * 2:]
             guardar_historial(historial)
